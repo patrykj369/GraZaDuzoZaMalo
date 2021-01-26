@@ -1,10 +1,10 @@
-﻿using System;
+﻿using GraZaDuzoZaMalo.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
-
 namespace AppGraZaDuzoZaMaloCLI
 {
     class WidokCLI
@@ -18,6 +18,8 @@ namespace AppGraZaDuzoZaMaloCLI
         public void CzyscEkran() => Clear();
 
         public void KomunikatPowitalny() => WriteLine("Wylosowałem liczbę z zakresu ");
+
+        public void KomunikatKoncowy(TimeSpan czas) => WriteLine("Czas rozgrywki wyniosl: " + czas);
 
         public int WczytajPropozycje()
         {
@@ -82,12 +84,12 @@ namespace AppGraZaDuzoZaMaloCLI
                 return;
             }
 
-            WriteLine("Nr    Propozycja     Odpowiedź     Czas    Status");
-            WriteLine("=================================================");
+            WriteLine("Nr    Propozycja    Odpowiedź       Czas         Status");
+            WriteLine("========================================================");
             int i = 1;
             foreach ( var ruch in kontroler.ListaRuchow)
             {
-                WriteLine($"{i}     {ruch.Liczba}      {ruch.Wynik}  {ruch.Czas.Second}   {ruch.StatusGry}");
+                WriteLine($"{i}        {ruch.Liczba}           {ruch.Wynik}       {ruch.Czas.ToString("HH:mm:ss")}      {ruch.StatusGry}");
                 i++;
             }
         }

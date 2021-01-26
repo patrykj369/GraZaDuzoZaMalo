@@ -33,6 +33,7 @@ namespace AppGraZaDuzoZaMaloCLI
         {
             gra = new Gra();
             widok = new WidokCLI(this);
+            
         }
 
         public void Uruchom()
@@ -108,7 +109,7 @@ namespace AppGraZaDuzoZaMaloCLI
                         widok.KomunikatZaMalo();
                         break;
                     case Trafiony:
-                        widok.KomunikatTrafiono();
+                        widok.KomunikatTrafiono();   
                         break;
                     default:
                         break;
@@ -122,6 +123,7 @@ namespace AppGraZaDuzoZaMaloCLI
             {
                 File.Delete(filePath);
                 widok.HistoriaGry();
+                widok.KomunikatKoncowy(gra.CalkowityCzasGry);
             }
         }
 
