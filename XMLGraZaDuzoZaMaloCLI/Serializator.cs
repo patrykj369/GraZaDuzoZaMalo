@@ -13,7 +13,13 @@ namespace AppGraZaDuzoZaMaloCLI
     class Serializator
     {
         DataContractSerializer ser = new DataContractSerializer(typeof(Gra));
-        Aes key = Aes.Create();
+        Aes klucz;
+
+        public Serializator()
+        {
+            klucz = Aes.Create();
+            klucz.Key = new byte[16] { 5, 6, 7, 3, 4, 6, 15, 16, 61, 61, 11, 19, 12, 15, 6, 5 };
+        }
 
 
         bool czyIstnieje { get => File.Exists("zapis.xml"); }
@@ -36,19 +42,18 @@ namespace AppGraZaDuzoZaMaloCLI
             if(czyIstnieje)
             {
                 Decrypt();
-                
+                Gra gra = null;
                 using (var stream = new FileStream("zapis.xml", FileMode.Open, FileAccess.Read))
                 {
-                    return (Gra)ser.ReadObject(stream);
+                    gra = (Gra)ser.ReadObject(stream);
                 }
-                
-                
+                Encrypt();
+                return gra;
             }
             else
             {
                 throw new SerializationException();
             }
-
 
         }
 
@@ -62,13 +67,13 @@ namespace AppGraZaDuzoZaMaloCLI
 
             EncryptedXml eXml = new EncryptedXml();
 
-            byte[] encryptedElement = eXml.EncryptData(elementToEncrypt, key, false);
+            byte[] encryptedElement = eXml.EncryptData(elementToEncrypt, klucz, false);
 
             EncryptedData edElement = new EncryptedData();
             edElement.Type = EncryptedXml.XmlEncElementUrl;
 
             string encryptionMethod = null;
-            if(key is Aes)
+            if(klucz is Aes)
             {
                 encryptionMethod = EncryptedXml.XmlEncAES256Url;
             }
@@ -105,7 +110,7 @@ namespace AppGraZaDuzoZaMaloCLI
 
             EncryptedXml exml = new EncryptedXml();
 
-            byte[] rgbOutput = exml.DecryptData(edElement, key);
+            byte[] rgbOutput = exml.DecryptData(edElement, klucz);
             exml.ReplaceData(encryptedElement, rgbOutput);
 
             using (var stream = new FileStream("zapis.xml", FileMode.Create, FileAccess.Write))
