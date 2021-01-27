@@ -47,7 +47,7 @@ namespace GraZaDuzoZaMalo.Model
     /// </para>
     /// </remarks>
     [Serializable]
-    //[DataContract]
+    [DataContract]
     public class Gra
     {
         /// <summary>
@@ -66,7 +66,7 @@ namespace GraZaDuzoZaMalo.Model
         /// </value>
         public int MinLiczbaDoOdgadniecia { get; } = 1;
 
-        //[DataMember]
+        [DataMember]
         readonly private int liczbaDoOdgadniecia;
 
 
@@ -93,10 +93,10 @@ namespace GraZaDuzoZaMalo.Model
         /// <para>Zmiana wartości zmiennej na <see cref="Gra.Status.Poddana"/> po uruchomieniu metody <see cref="Przerwij"/>.</para>
         /// <para>Zmiana wartości zmiennej na <see cref="Gra.Status.Zakonczona"/> w metodzie <see cref="Propozycja(int)"/>, po podaniu poprawnej, odgadywanej liczby.</para>
         /// </remarks>
-        //[DataMember]
+        [DataMember]
         public Status StatusGry { get; private set; }
 
-        //[DataMember]
+        [DataMember]
         private List<Ruch> listaRuchow;
 
         public IReadOnlyList<Ruch> ListaRuchow { get { return listaRuchow.AsReadOnly(); } }

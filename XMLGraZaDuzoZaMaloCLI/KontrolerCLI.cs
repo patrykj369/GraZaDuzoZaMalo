@@ -46,14 +46,14 @@ namespace AppGraZaDuzoZaMaloCLI
         public void UruchomRozgrywke()
         {
             widok.CzyscEkran();
-            string filePath = "zapis.save";
+            string filePath = "zapis.xml";
             bool czyPlikIstnieje = File.Exists(filePath);
 
             if (czyPlikIstnieje && widok.ChceszKontynuowac("Czy chcesz wznowić grę? (t/n)"))
             {
                 try
                 {
-                    gra = dataSerializator.BinaryDeserialize();
+                    gra = dataSerializator.Deserialize();
                     gra.Odwies();
                     widok.HistoriaGry();
                 }
@@ -61,14 +61,14 @@ namespace AppGraZaDuzoZaMaloCLI
                 {
                     Console.WriteLine("Nie udalo sie odczytac pliku!");
                     gra = new Gra(MinZakres, MaxZakres);
-                    File.Delete("zapis.save");
+                    File.Delete("zapis.xml");
                 }
 
             }
             else
             {
                 gra = new Gra(MinZakres, MaxZakres); //może zgłosić ArgumentException
-                File.Delete("zapis.save");
+                File.Delete("zapis.xml");
             }
 
             do
@@ -84,7 +84,7 @@ namespace AppGraZaDuzoZaMaloCLI
                     gra.Zawies();
                     try
                     {
-                        dataSerializator.BinarySerialize(gra);
+                        dataSerializator.Serialize(gra);
                         Console.WriteLine("Gra zostala zapisana");
                     }
                     catch(SerializationException)
